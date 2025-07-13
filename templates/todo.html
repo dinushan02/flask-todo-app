@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        button {
+            padding: 10px 15px;
+            background: #28a745;
+            border: none;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin-bottom: 5px;
+            background: #fafafa;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.done span {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .actions a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My To-Do List</h1>
+        <form method="POST">
+            <input type="text" name="task" placeholder="Enter a new task" required>
+            <button type="submit">Add</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+                <li class="{% if task.done %}done{% endif %}">
+                    <span>{{ task.title }}</span>
+                    <div class="actions">
+                        <a href="{{ url_for('complete', index=loop.index0) }}">
+                            {% if task.done %}Undo{% else %}Complete{% endif %}
+                        </a>
+                        <a href="{{ url_for('delete', index=loop.index0) }}">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
